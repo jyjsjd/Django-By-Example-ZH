@@ -1,7 +1,7 @@
 （译者注：祝大家新年快乐，这次带来《Django By Example》第四章的翻译，这章非常的实用，就这样）
 
-#第四章
-##创建一个社交网站
+# 第四章
+## 创建一个社交网站
 在上一章中，你学习了如何创建站点地图（sitemaps）和feeds，你还为你的blog应用创建了一个搜索引擎。在本章中，你将开发一个社交应用。你会为用户创建一些功能，例如：登录，登出，编辑，以及重置他们的密码。你会学习如何为你的用户创建一个定制的profile，你还会为你的站点添加社交认证。
 
 本章将会覆盖一下几点：
@@ -13,7 +13,7 @@
 
 让我们开始创建我们的新项目吧。
 
-###创建一个社交网站项目
+### 创建一个社交网站项目
 我们要创建一个社交应用允许用户分享他们在网上找到的图片。我们需要为这个项目构建以下元素：
 
 * 一个用来给用户注册，登录，编辑他们的profile，以及改变或重置密码的认证（authentication）系统
@@ -23,7 +23,7 @@
 
 本章主要讲述第一点。
 
-###开始你的社交网站项目
+### 开始你的社交网站项目
 打开终端使用如下命令行为你的项目创建一个虚拟环境并且激活它：
 ​    
     mkdir evn
@@ -60,7 +60,7 @@ shell提示将会展示你激活的虚拟环境，如下所示：
 
 我们将要使用认证（authentication）框架来构建一个认证系统到我们的项目中。
 
-###使用Django认证（authentication）框架
+### 使用Django认证（authentication）框架
 Django拥有一个内置的认证（authentication）框架用来操作用户认证（authentication），会话（sessions），权限（permissions）以及用户组。这个认证（authentication）系统包含了一些普通用户的操作视图（views），例如：登录，登出，修改密码以及重置密码。
 
 这个认证（authentication）框架位于*django.contrib.auth*，被其他Django的*contrib*包调用。请记住你在*第一章 创建一个Blog应用*中使用过这个认证（authentication）框架并用来为你的blog应用创建了一个超级用户来使用管理站点。
@@ -80,7 +80,7 @@ Django拥有一个内置的认证（authentication）框架用来操作用户认
 
 这个框架还包含默认的认证（authentication）视图（views）和表单（forms），我们之后会用到。
 
-###创建一个log-in视图（view）
+### 创建一个log-in视图（view）
 我们将要开始使用Django认证（authentication）框架来允许用户登录我们的网站。我们的视图（view）需要执行以下操作来登录用户：
 
 <ol>
@@ -226,7 +226,7 @@ def user_login(request):
 
 ![](http://ohqrvqrlb.bkt.clouddn.com/django-4-4.png)
 
-###使用Django认证（authentication）视图（views）
+### 使用Django认证（authentication）视图（views）
 Django在认证（authentication）框架中包含了一些开箱即用的表单（forms）和视图（views）。你之前创建的登录视图（view）是一个非常好的练习用来理解Django中的用户认证（authentication）过程。无论如何，你可以在大部分的案例中使用默认的Django认证（authentication）视图（views）。
 
 Django提供以下视图（views）来处理认证（authentication）：
@@ -251,7 +251,7 @@ Django还包含了以下视图（views）允许用户重置他们的密码：
 你可以通过访问 https://docs.
 djangoproject.com/en/1.8/topics/auth/default/#module-django.contrib.auth.views 获取更多内置的认证（authentication）视图（views）信息。
 
-###登录和登出视图（views）
+### 登录和登出视图（views）
 
 编辑你的*account*应用下的*urls.py*文件，如下所示：
 
@@ -458,7 +458,7 @@ Django会在用户登出的时候展示这个模板（template）。
 
 如果在你的登出页面中看到了Django管理站点的登出页面，检查项目*settings.py*中的*INSTALLED_APPS*,确保*django.contrib.admin*在*account*应用的后面。每个模板（template）被定位在同样的相对路径时，Django模板（template）读取器将会使用它找到的第一个应用中的模板（templates）。
 
-###修改密码视图（views）
+### 修改密码视图（views）
 我们还需要我们的用户在登录成功后可以进行修改密码。我们要集成Django认证（authentication）视图（views）来修改密码。打开*account*应用中的*urls.py*文件，添加如下URL模式：
 
     # change password urls
@@ -506,7 +506,7 @@ Django会在用户登出的时候展示这个模板（template）。
 
 登出再使用新的密码进行登录来验证每件事是否如预期一样工作。
 
-###重置密码视图（views）
+### 重置密码视图（views）
 在*account*应用*urls.py*文件中为密码重置添加如下URL模式：
 
     # restore password urls
@@ -628,10 +628,10 @@ Django会在用户登出的时候展示这个模板（template）。
 
 你在项目中集成了Django认证（authentication）框架的视图（views）。这些视图（views）对大部分的情况都适合。当然，如果你需要一种不同的行为你能创建你自己的视图。
 
-##用户注册和用户profiles
+## 用户注册和用户profiles
 现有的用户已经可以登录，登出，修改他们的密码，以及当他们忘记密码的时候重置他们的密码。现在，我们需要构建一个视图（view）允许访问者创建他们的账号。
 
-###用户注册
+### 用户注册
 让我们创建一个简单的视图（view）允许用户在我们的网站中进行注册。首先，我们需要创建一个表单（form）让用户填写用户名，他们的真实姓名以及密码。编辑*account*应用新目录下的*forms.py*文件添加如下代码：
 
     from django.contrib.auth.models import User
@@ -725,7 +725,7 @@ Django还提供一个*UserCreationForm*表单（form）给你使用，它位于*
     
 如此，我们就可以从登录页面进入注册页面。
 
-###扩展User模型（model）
+### 扩展User模型（model）
 当你需要处理用户账号，你会发现Django认证（authentication）框架的*User*模型（model）只适应一般的案例。无论如何，*User*模型（model）只有一些最基本的字段。你可能希望扩展*User*模型包含额外的数据。最好的办法就是创建一个*profile*模型（model）包含所有额外的字段并且和Django的*User*模型（model）做一对一的关联。
 
 编辑*account*应用中的*model.py*文件，添加如下代码：
@@ -898,12 +898,12 @@ MEDIA_URL 是管理用户上传的多媒体文件的主URL，MEDIA_ROOT是这些
     
 用户现在可以从他们的dashboard访问编辑他们的*profile*的表单。
 
-###使用一个定制*User*模型（model）
+### 使用一个定制*User*模型（model）
 Django还提供一个方法可以使用你自己定制的模型（model）来替代整个*User*模型（model）。你自己的用户类需要继承Django的*AbstractUser*类，这个类提供了一个抽象的模型（model）用来完整执行默认用户。你可访问  https://docs.djangoproject.com/en/1.8/topics/auth/customizing/#substituting-a-custom-user-model来获得这个方法的更多信息。
 
 使用一个定制的用户模型（model）将会带给你很多的灵活性，但是它也可能给一些需要与*User*模型（model）交互的即插即用的应用集成带来一定的困难。
 
-##使用messages框架
+## 使用messages框架
 当处理用户的操作时，你可能想要通知你的用户关于他们操作的结果。Django有一个内置的messages框架允许你给你的用户显示一次性的提示。messages框架位于*django.contrib.messages*，当你使用`python manage.py startproject`命令创建一个新项目的时候，messages框架就被默认包含在*settings.py*文件中的*INSTALLED_APPS*中。你会注意到你的设置文件中在*MIDDLEWARE_CLASSES*设置里包含了一个名为*django.contrib.messages.middleware.MessageMiddleware*的中间件。messages框架提供了一个简单的方法添加消息给用户。消息被存储在数据库中并且会在用户的下一次请求中展示。你可以在你的视图（views）中导入*messages*模块来使用消息messages框架，用简单的快捷方式添加新的messages，如下所示：
 
     from django.contrib import messages
@@ -960,7 +960,7 @@ messages框架带有一个上下文环境（context）处理器用来添加一�
 
 ![](http://ohqrvqrlb.bkt.clouddn.com/django-4-18.png)
 
-##创建一个定制的认证（authentication）后台
+## 创建一个定制的认证（authentication）后台
 Django允许你通过不同的来源进行认证（authentication）。*AUTHENTICATION_BACKENDS*设置包含了所有的给你的项目的认证（authentication）后台。默认的，这个设置如下所示：
 
     ('django.contrib.auth.backends.ModelBackend',)
@@ -1016,7 +1016,7 @@ Django提供了一个简单的方法来定义你自己的认证（authentication
 
 > *AUTHENTICATION_BACKENDS*设置中的后台排列顺序。如果相同的认证信息在多个后台都是有效的，Django会停止在第一个成功认证（authentication）通过的后台，不再继续进行认证（authentication）。
 
-##为你的站点添加社交认证（authentication）
+## 为你的站点添加社交认证（authentication）
 你可以希望给你的站点添加一些社交认证（authentication）服务，例如 *Facebook*，*Twitter*或者*Google*(国内就算了- -|||)。*Python-social-auth*是一个Python模块提供了简化的处理为你的网站添加社交认证（authentication）。通过使用这个模块，你可以让你的用户使用他们的其他服务的账号来登录你的网站。你可以访问 https://github.com/omab/python-social-auth 得到这个模块的代码。
 
 这个模块自带很多认证（authentication）后台给不同的Python框架，其中就包含Django。
@@ -1059,7 +1059,7 @@ Django提供了一个简单的方法来定义你自己的认证（authentication
 
 为了验证你的*host*重定向是否可用，在浏览器中打开 http://mysite.com:8000/account/login/ 。如果你看到你的应用的登录页面，*host*重定向已经可用。
 
-###使用Facebook认证（authentication）
+### 使用Facebook认证（authentication）
 **（译者注：以下的几种社交认证操作步骤可能已经过时，请根据实际情况操作）**
 为了让你的用户能够使用他们的Facebook账号来登录你的网站，在项目*settings.py*文件中的*AUTHENTICATION_BACKENDS*设置中添加如下内容：
 
@@ -1098,7 +1098,7 @@ Django提供了一个简单的方法来定义你自己的认证（authentication
 
 点击**Okay**按钮。Python-social-auth会对认证（authentication）进行操作。如果每一步都没有出错，你会登录成功然后被重定向到你的网站的dashboard页面。请记住，我们已经使用过这个URL在*LOGIN_REDIRECT_URL*设置中。就像你所看到的，在你的网站中添加社交认证（authentication）是非常简单的。
 
-###使用Twitter认证（authentication）
+### 使用Twitter认证（authentication）
 为了使用Twitter进行认证（authentication），在项目*settings.py*中的*AUTHENTICATION_BACKENDS*设置中添加如下内容：
 
     'social.backends.twitter.TwitterOAuth',
@@ -1127,7 +1127,7 @@ Django提供了一个简单的方法来定义你自己的认证（authentication
 
 点击**Authorize app**按钮。你会登录成功并且重定向到你的网站dashboard页面。
 
-###使用Google认证（authentication）
+### 使用Google认证（authentication）
 Google提供*OAuth2*认证（authentication）。你可以访问 https://developers.google.com/accounts/docs/OAuth2 获得关于Google OAuth2的信息。
 
 首先，你徐闯创建一个*API key*在你的Google开发者控制台。在浏览器中打开 https://console.developers.google.com/project 然后点击**Create project**按钮。输入一个名字然后点击**Create**按钮，如下所示：
@@ -1180,7 +1180,7 @@ Google首先会询问你配置同意信息页面。这个页面将会展示给�
 
 在下一章中，你会学习如何创建一个图片收藏系统（image bookmarking system），生成图片缩微图，创建AJAX视图（views）。
 
-###译者总结
+### 译者总结
 终于写到了这里，呼出一口气，第四章的页数是前几章的两倍，在翻译之前还有点担心会不会坚持不下去，不过看样子我还是坚持了下来，而且发现一旦翻译起来就不想停止（- -|||莫非心中真的有翻译之魂！？）。这一章还是比较基础，主要介绍了集成用户的认证系统到网站中，比较有用的是通过第三方的平台账户登录，可惜3个平台Facbook，Twitter，Google国内都不好访问，大家练习的时候还是用国内的QQ，微信，新浪等平台来练习吧。第五章的翻译不清楚什么时候能完成，也许过年前也可能过年后，反正不管如何，这本书我一定要翻译到最后！
 
 最后，请保佑我公司年会让我抽到特大奖，集各位祈祷之力，哈哈哈哈！

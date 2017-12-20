@@ -2,8 +2,8 @@
 
 (审校者@夜夜月注：人多力量大，第五章由@ucag两天内独立翻译完毕)
 
-##**第五章**
-##**在你的网站中分享内容**
+## **第五章**
+## **在你的网站中分享内容**
 
 在上一章中，你为你的网站建立了用户注册和认证系统。你学习了如何为用户创建定制化的个人资料模型以及如何将主流的社交网络的认证添加进你的网站。
 在这一章中，你将学习如何通过创建一个  JavaScript 书签来从其他的站点分享内容到你的网站，你也将通过使用 jQuery 在你的项目中实现一些 AJAX 特性。
@@ -17,7 +17,7 @@
  * 实现 AJAX 视图（views）并且使这些视图（views）和 jQuery 融合
  * 为视图（views）创建定制化的装饰器 （decorators）
  * 创建 AJAX 分页
-##**建立一个能为图片打标签的网站**
+## **建立一个能为图片打标签的网站**
 我们将允许用户可以在我们网站中分享他们在其他网站发现的图片，并且他们还可以为这些图片打上标签。为了达到这个目的，我们将要做以下几个任务：
 
  * 定义一个模型来储存图片以及图片的信息
@@ -36,7 +36,7 @@
     ]
 
 现在Django知道我们的新应用已经被激活了。
-##**创建图像模型**
+## **创建图像模型**
 编辑 images 应用中的 `models.py`  文件，将以下代码添加进去：
 
 ```python
@@ -79,7 +79,7 @@ class Image(models.Model):
             super(Image, self).save(*args, **kwargs)
 ```
 在这段代码中，我们使用了 Django 提供的`slugify()`函数在没有提供`slug`字段时根据给定的图片标题自动生slug,然后，我们保存了这个对象。我们自动生成slug，这样的话用户就不用自己输入`slug`字段了。
-##**建立多对多关系**
+## **建立多对多关系**
 我们将要在 Image 模型中再添加一个字段来保存喜欢这张图片的用户。因此，我们需要一个多对多关系。因为一个用户可能喜欢很多张图片，一张图片也可能被很多用户喜欢。
 在 Image 模型中添加以下字段：
 
@@ -115,7 +115,7 @@ python manage.py migrate images
 Applying images.0001_initial... OK
 ```
 现在 Image 模型已经在数据库中同步了。
-##**注册 Image 模型到管理站点中**
+## **注册 Image 模型到管理站点中**
 编辑 `images` 应用的 `admin.py` 文件，然后像下面这样将 `Image` 模型注册到管理站点中：
 
 ```python
@@ -130,7 +130,7 @@ admin.site.register(Image, ImageAdmin)
 使用命令`python manage.py runserver`打开开发服务器，在浏览器中打开`http://127.0.0.1:8000/admin/`,可以看到`Image`模型已经注册到了管理站点中：
 
 ![Django-5-1][1]
-##**从其他网站上传内容**
+## **从其他网站上传内容**
 我们将使用户可以给从他们在其他网站发现的图片打上标签。用户将要提供图片的 URL ，标题，和一个可选的描述。我们的应用将要下载这幅图片，并且在数据库中创建一个新的 `Image` 对象。
 我们从新建一个用于提交图片的表单开始。在images应用的路径下创建一个 `forms.py` 文件，在这个文件中添加如下代码：
 
@@ -146,7 +146,7 @@ class ImageCreateForm(forms.ModelForm):
         }
 ```
 如你所见，这是一个通过`Image`模型创建的`ModelForm`（模型表单），但是这个表单只包含了 `title`,`url`,`description`字段。我们的用户不会在表单中直接为图片添加 URL。相反的，他们将会使用一个 JavaScropt 工具来从其他网站中选择一张图片然后我们的表单将会以参数的形式接收这张图片的 URL。我们覆写 `url` 字段的默认控件（widget）为一个`HiddenInput`控件，这个控件将会被渲染为属性是 `type="hidden"`的 HTML 元素。使用这个控件是因为我们不想让用户看见这个字段。
-##**清洁表单字段**
+## **清洁表单字段**
 （译者注：原文标题是：cleaning form fields,在数据处理中有个术语是“清洗数据”，但是这里的清洁还有“使其整洁”的含义，感觉更加符合`clean_url`这个方法的定位。）
 为了验证提供的图片 URL 是否合法，我们将检查以`.jpg`或`.jpeg`结尾的文件名，来只允许JPG文件的上传。Django允许你自定义表单方法来清洁特定的字段，通过使用以`clean_<fieldname>`形式命名的方法来实现。这个方法会在你为一个表单实例执行`is_valid()`时执行。在清洁方法中，你可以改变字段的值或者为某个特定的字段抛出错误当需要的时候，将下面这个方法添加进`ImageCreateForm`:
 
@@ -166,7 +166,7 @@ def clean_url(self):
  * 2. 我们分离了 URL 来获取文件扩展名，然后检查它是否为合法扩展名之一。如果它不是一个合法的扩展名，我们就会抛出`ValidationError`,并且表单也不会被认证。我们执行的是一个非常简单的认证。你可以使用更好的方法来验证所给的 URL 是否是一个合法的图片。
 除了验证所给的 URL， 我们还需要下载并保存图片文件。比如，我们可以使用操作表单的视图来下载图片。不过，我们将采用一个更加通用的方法 ———— 通过覆写我们模型表单中`save()`方法来完成这个任务。
 
-##**覆写模型表单中的save()方法**
+## **覆写模型表单中的save()方法**
 如你所知，`ModelForm`提供了一个`save()`方法来保存目前的模型实例到数据库中，并且返回一个对象。这个方法接受一个布尔参数`commit`，这个参数允许你指定这个对象是否要被储存到数据库中。如果`commit`是`False`，`save()`方法将会返回一个模型实例但是并不会把这个对象保存到数据库中。我们将覆写表单中的`save()`方法，来下载图片然后保存它。
 将以下的包在`foroms.py`中的顶部导入：
 
@@ -185,7 +185,7 @@ def save(self, force_insert=False,
     image_url = self.cleaned_data['url']
     image_name = '{}.{}'.format(slugify(image.title),
     image_url.rsplit('.', 1)[1].lower())
-# 从给定的 URL 中下载图片
+    # 从给定的 URL 中下载图片
     response = request.urlopen(image_url)
     image.image.save(image_name,
                     ContentFile(response.read()),
@@ -296,7 +296,7 @@ http://127.0.0.1:8000/images/create/?title=%20Django%20and%20Duke&url=http://upl
 你可以看到一个带有图片预览的表单，就像下面这样：
 ![Django-5-2][2]
 添加描述然后点击 **Bookmark it！**按钮。一个新的 `Image`对象将会被保存在你的数据库中。你将会得到一个错误，这个错误指示说`Image`模型没有`get_absolute_url()`方法。现在先不要担心这个，我们待会儿将添加这个方法、在你的浏览器中打开`http://127.0.0.1:8000/admin/images/image/`，确定新的图像对象已经被保存了。
-##**用 jQuery 创建一个书签**
+## **用 jQuery 创建一个书签**
 书签是一个保存在浏览器中包含 JavaScript 代码的标签，用来拓展浏览器功能。当你点击书签的时候， JavaScript 代码会在浏览器显示的网站中被执行。这是一个在和其它网站交互时非常有用的工具。
 
 一些在线服务，比如 Pinterest 实现了他们自己的书签来让用户可以在他们的平台中分享来自其他网站的内容，我们将以同样的方式创建一个书签，让用户可以在我们的网站中分享来自其他网站的图片。
@@ -400,7 +400,6 @@ http://127.0.0.1:8000/images/create/?title=%20Django%20and%20Duke&url=http://upl
       }
     })();
   }
-
 })()
 ```
 这是主要的 jQuery 加载脚本，当脚本已经加载到当前网站中时，它负责调用 JQuery 或者是从 Google 的 CDN 中加载 jQuery。当 jQuery 被加载，它会执行` bookmarklet()`函数，该函数包含我们的bookmarklet代码。我们还在这个文件顶部设置几个变量：
@@ -481,7 +480,7 @@ http://127.0.0.1:8000/images/create/?title=%20Django%20and%20Duke&url=http://upl
 ![Django-5-5][5]
 恭喜！这是你的第一个 JavaScript 书签！现在它已经和你的 Django 项目成为一体！
 
-##**为你的图片创建一个详情视图**
+## **为你的图片创建一个详情视图**
 我们将创建一个简单的详情视图，用于展示一张已经保存在我们的网站中的图片。打开 images 应用的`views.py`，将以下代码添加进去：
 
 ```python
@@ -545,7 +544,7 @@ class Image(models.Model):
 
 现在使用书签来为一张图片打上标签。在你提交图片之后你将会被重定向图片详情页面。这张图片将会包含一条提交成功的消息，效果如下：
 ![Django-5-6][6]
-##**使用 sorl-thumbnail 创建缩略图**
+## **使用 sorl-thumbnail 创建缩略图**
 我们在详情页展示原图片，但是不同的图片的尺寸是不同的。一些图片源文件或许会非常大，加载他们会耗费很长时间。展示规范图片的最好方法是生成缩略图。我们将使用一个 Django 应用，叫做`sorl-thumbnail`。
 
 打开终端，用下面的命令来安装`sorl-thumbnail`：
@@ -583,7 +582,7 @@ Creating table thumbnail_kvstore
 这里，我们定义了一个固定宽度为 300px 的缩略图。当用户第一次加载这页面时，缩略图将会被创建。生成的缩略图将会在接下来的请求中被使用。运行`python manage.py runserver`开启开发服务器，连接到一张已有图片的详情页。缩略图将会生成并展示在网站中。
 
 `sorl-thumbnail`应用提供了几个选择来定制你的缩略图，包括裁减算法和能被应用的不同效果。如果你有任何生成缩略图的疑难点，你可以在你的设置中添加`THUMBNAIL_DEBUG = TRUE`来获得 debug 信息。你可以阅读`sorl-thumbnail`的完整文档：http://sorl-thumbnail.readthedocs.org/
-##**用 jQuery 添加 AJAX 动作**
+## **用 jQuery 添加 AJAX 动作**
 现在我们将在你的应用中添加 AJAX 动作。AJAX 源于 Asynchronous JavaScript and XML（异步 JavaScript 和 XML）。这个术语包含一组可以制造异步 HTTP 请求的技术，它包含从服务器异步发送和接收数据，不需要重载整个页面，虽然它的名字里有 XML， 但是 XML 不是必需的。你可以以其他的格式发送或者接收数据，如 JSON， HTML，或者是纯文本。
 
 我们将在图片详情页添加一个供用户点击的链接，表示他们喜欢这张图片。我们将会用 AJAX 来避免重载整个页面。首先，在 `views.py` 中创建一个可供用户点击“喜欢”或“不喜欢”的视图。编辑 images 应用的`views.py`，将以下代码添加进去：
@@ -621,7 +620,7 @@ def image_like(request):
 ```
 url(r'^like/$', views.image_like, name='like'),
 ```
-##**加载 jQuery**
+## **加载 jQuery**
 我们需要在我们的图片详情页中添加 AJAX 功能。我们首先将在 `base.html`模版中引入 AJAX。编辑 account 应用的 `base.html`模版，然后将以下代码在`</body>`标签前添加以下代码：
 
 ```html
@@ -644,7 +643,7 @@ jquery.min.js"></script>
 
 >在这一章中，我们在 Django 模板中引入（include）了 JavaSript 代码。更好的引入方法是加载（load） JavaSript. `js`文件是作为静态文件被提供的，特别在有大量脚本时尤其如此。
 
-##**AJAX 请求中的跨站请求攻击（CSRF）**
+## **AJAX 请求中的跨站请求攻击（CSRF）**
 你已经在第二章了解到了跨站请求攻击，在CSRF保护激活的情况下， Django 会检查所有 POST 请求中的 CSRF token。当你提交表但时，你可以使用`{% csrf_token %}`模板标签来发送带有 token 的表单。无论如何，像 POST 请求一样对 AJAX 请求传递CDRF token 有一点点不方便。因此，Django 允许你在你的 AJAX 请求中设置一个定制的 `X-CSRFToken` token 头（header）。这允许你安装一个 jQuery 或者任意 JavaScript 库来自动设置`X-CSRFToken`头在每一次请求中。
 
 为了在所有的请求中加入 token ，你需要：
@@ -687,7 +686,7 @@ $(document).ready(function(){
 
 CSRF token将会在所有的不安全 HTTP 方法的 AJAX 请求中引入，比如 POST, PUT
 
-##**用 JQuery 执行 AJAX请求**
+## **用 JQuery 执行 AJAX请求**
 编辑 images 应用中的 `images/image/detailmhtml`模板，删除这一行：
 
 ```
@@ -776,7 +775,7 @@ CSRF token将会在所有的不安全 HTTP 方法的 AJAX 请求中引入，比�
 
 在编写 JavaScript 时，特别是在写 AJAX 请求时， 我们建议应该使用一个类似于 Firebug 的工具来调试你的 JavaScript 脚本以及监视 CSS 和 HTML 的变化，你可以下载 Firebug ： http://getfirebug.com/。一些浏览器比如*Chrome*或者*Safari*也包含一些调试 JavaScript 的开发者工具。在那些浏览器中，你可以在网页的任何地方右键然后点击**Inspect element**来使用网页开发者工具。
 
-##**为你的视图创建定制化的装饰器**
+## **为你的视图创建定制化的装饰器**
 我们将会限制我们的 AJAX 视图只接收由 AJAX 发起的请求。Django Request 对象提供了一个 `is_ajax()`方法， 这个方法会检查请求是否带有`XMLHttpRequest`,也就是说，会检查这个请求是否是一个 AJAX 请求。这个值被设置在`HTTP_X_REQUESTED_WITH HTTP`头中， 这个头被大多数的由JavaScript库发起的 AJAX 请求包含。
 
 我们将在我们的视图中创建一个装饰器，来检测`HTTP_X_RQUESTED_WITH`头。装饰器是一个可以接收一个函数为参数的函数，并且它可以在不改变作为参数的函数的情况下，拓展此函数的功能。如果装饰器的概念对你来说还很陌生，在继续阅读之前你或许可以看看这个：https:www.python.org/dev/peps/pep-0318/。
@@ -818,7 +817,7 @@ def image_like(request):
 
 >如果你发现你正在视图中执行重复的检查，请为你的视图创建装饰器
 
-##**在你的列表视图中添加 AJAX 分页**
+## **在你的列表视图中添加 AJAX 分页**
 我们需要在你的网站中列出所有的被标签的图片。我们将要使用 AJAX 分页来建立一个不受限的滚屏功能。不受限的滚屏是在用户滚动到底部时，自动加载下一页的结果来实现的。
 
 我们将实现一个图片列表视图，这个视图既可以支持标准的浏览器请求，也支持包含分页的 AJAX 请求。当用户首次加载列表页时，我们展示第一页的图片。当用户滚动到底部时，我们用 AJAX 加载下一页的内容，然后将内容加入到页面的底部。
@@ -963,7 +962,7 @@ url(r'^$', views.image_list, name='list'),
 ```
 现在你可以从主菜单连接到图片列表了。
 
-##**总结**
+## **总结**
 在这一章中，我们创建了一个 JavaScript 书签来从其他网站分享图片到我们的网站。你已经用 jQuery 实现了 AJAX 视图，还添加了 AJAX 分页。
 
 在下一章中，将会教你如何创建一个粉丝系统和一个活动流。你将和通用关系、信号、与反规范化打交道。你也将学习如何在 Django  中使用 Redis。
