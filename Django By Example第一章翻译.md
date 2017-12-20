@@ -382,6 +382,7 @@ Superuser created successfully.
 
 ## Django管理站点
 现在，通过`python manage.py runserver`命令来启动开发服务器，之后在浏览器中打开 http://127.0.0.1:8000/admin/ 。你会看到管理站点的登录页面，如下所示：
+
 ![django-1-2](http://upload-images.jianshu.io/upload_images/3966530-e2479f1cb20b1d5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 使用你在上一步中创建的超级用户信息进行登录。你将会看到管理站点的首页，如下所示：
@@ -443,6 +444,7 @@ class PostAdmin(admin.ModelAdmin):
 ```
 
 回到浏览器刷新管理站点页面，现在应该如下所示：
+
 ![django-1-7](http://upload-images.jianshu.io/upload_images/3966530-3b8a79f28e1a04de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 你可以看到帖子列页面中展示的字段都是你在*list-dispaly*属性中指定的。这个列页面现在包含了一个右侧边栏允许你根据*list_filter*属性中指定的字段来过滤返回结果。一个搜索框也应用在页面中。这是因为我们还通过使用*search_fields*属性定义了一个搜索字段列。在搜索框的下方，有个可以通过时间层快速导航的栏，该栏通过定义*date_hierarchy*属性出现。你还能看到这些帖子默认的通过*Status*和*Publish*列进行排序。这是因为你通过使用*ordering*属性指定了默认排序。
