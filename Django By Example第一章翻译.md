@@ -186,7 +186,7 @@ python manage.py runserver 127.0.0.1:8001 \
 
 本书外额外的需要下载的章节*第十三章,Going Live*包含为你的Django项目设置一个生产环境。
 
-##项目设置
+## 项目设置
 
 让我们打开settings.py文件来看看你的项目的配置。在该文件中有许多设置是Django内置的，但这些只是所有Django可用配置的一部分。你可以通过访问 https://docs.djangoproject.com/en/1.8/ref/settings/ 看到所有的设置和它们默认的值。
 
@@ -208,10 +208,10 @@ python manage.py runserver 127.0.0.1:8001 \
 
 不要担心你目前还看不懂这些设置的含义。你将会在之后的章节中熟悉这些设置。
 
-##项目和应用
+## 项目和应用
 贯穿全书，你会反复的读到项目和应用的地位。在Django中，一个项目被认为是一个安装了一些设置的Django；一个应用是一个包含模型（models），视图（views），模板（templates）以及URLs的组合。应用之间的交互通过Django框架提供的一些特定功能，并且应用可能被各种各样的项目重复使用。你可以认为项目就是你的网站，这个网站包含多个应用，例如blog，wiki或者论坛，这些应用都可以被其他的项目使用。**（译者注：我去，我竟然漏翻了这一节- -|||，罪过罪过，阿米头发）**
 
-##创建一个应用
+## 创建一个应用
 
 现在让我们创建你的第一个Django应用。我们将要创建一个勉强凑合的blog应用。在你的项目主目录下，运行以下命令：
 
@@ -238,7 +238,7 @@ blog/
 * tests.py：在这儿你可以为你的应用创建测试。
 * views.py：你的应用逻辑将会放在这儿。每一个视图（view）都会接受一个HTTP请求，处理该请求，最后返回一个响应。
 
-##设计blog数据架构
+## 设计blog数据架构
 
 我们将要开始为你的blog设计初始的数据模型（models）。一个模型（model）就是一个Python类，该类继承了*django.db.models.model*,在其中的每一个属性表示一个数据库字段。Django将会为*models.py*中的每一个定义的模型（model）创建一张表。当你创建好一个模型（model），Django会提供一个非常实用的API来方便的查询数据库。
 
@@ -300,7 +300,7 @@ class Post(models.Model):
 
 Django内置对时区日期处理的支持。你可以在你的项目中的*settings.py*文件中通过*USE_TZ*来设置激活或停用对时区的支持。当你通过*startproject*命令来创建一个新项目的时候这个设置默认为*True*。
 
-##激活你的应用
+## 激活你的应用
 为了让Django能保持跟踪你的应用并且根据你的应用中的模型（models）来创建数据库表，我们必须激活你的应用。因此，编辑*settings.py*文件，在*INSTALLED_APPS*设置中添加*blog*。看上去如下所示：
 ```python
 INSTALLED_APPS = ( 
@@ -317,7 +317,7 @@ INSTALLED_APPS = (
 
 现在Django已经知道在项目中的我们的应用是激活状态并且将会对其中的模型（models）进行自审。
 
-##创建和进行数据库迁移
+## 创建和进行数据库迁移
 让我们为我们的模型（model）在数据库中创建一张数据表格。Django自带一个数据库迁移（migration）系统来跟踪你对模型（models）的修改，然后会同步到数据库。*migrate*命令会应用到所有在*INSTALLED_APPS*中的应用，它会根据当前的模型（models）和数据库迁移（migrations）来同步数据库。
 
 首先，我们需要为我们刚才创建的新模型（model）创建一个数据库迁移（migration）。在你的项目主目录下，执行以下命令：
@@ -365,7 +365,7 @@ Django会根据你正在使用的数据库进行以上精准的输出。以上SQ
 
 请记住，*django.contrib.admin*已经被包含在我们项目的*INSTALLED_APPS*设置中，我们不需要再额外添加。
 
-##创建一个超级用户
+## 创建一个超级用户
 首先，我们需要创建一名用户来管理这个管理站点。运行以下的命令：
     
     python manage.py createsuperuser
@@ -380,7 +380,7 @@ Password (again): ********
 Superuser created successfully.
 ```
 
-##Django管理站点
+## Django管理站点
 现在，通过`python manage.py runserver`命令来启动开发服务器，之后在浏览器中打开 http://127.0.0.1:8000/admin/ 。你会看到管理站点的登录页面，如下所示：
 ![django-1-2](http://upload-images.jianshu.io/upload_images/3966530-e2479f1cb20b1d5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -413,7 +413,7 @@ Django给不同类型的字段使用了不同的表单控件。即使是复杂�
 ![django-1-6](http://upload-images.jianshu.io/upload_images/3966530-879a2158c1c80ae9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-##定制models的展示形式
+## 定制models的展示形式
 现在我们来看下如何定制管理站点。编辑blog应用下的*admin.py*文件，使之如下所示：
 
 ```python   
@@ -452,12 +452,12 @@ class PostAdmin(admin.ModelAdmin):
 
 通过短短的几行代码，我们就在管理站点中自定义了我们的模型（model）的展示形式。还有更多的方式可以用来定制Django的管理站点。在这本书的后面，我们还会进一步讲述。
 
-##使用查询集（QuerySet）和管理器（managers）
+## 使用查询集（QuerySet）和管理器（managers）
 现在，你已经有了一个完整功能的管理站点来管理你的blog内容，是时候学习如何从数据库中检索信息并且与这些信息进行交互了。Django自带了一个强大的数据库抽象API可以让你轻松的创建，检索，更新以及删除对象。Django的*Object-relational Mapper(ORM)*可以兼容MySQL,PostgreSQL,SQLite以及Oracle。请记住你可以在你项目下的*setting.py*中编辑*DATABASES*设置来指定数据库。Django可以同时与多个数据库进行工作，这样你可以编写数据库路由通过任何你喜欢的方式来操作数据。
 
 一旦你创建好了你的数据模型（models），Django会提供你一个API来与它们进行交互。你可以找到数据模型（model）的官方参考文档通过访问 https://docs.djangoproject.com/en/1.8/ref/models/ 。
 
-##创建对象
+## 创建对象
 打开终端运行以下命令来打开Python shell：
 
     python manage.py shell
@@ -494,7 +494,7 @@ class PostAdmin(admin.ModelAdmin):
 
     Post.objects.create(title='One more post', slug='one-more-post',body='Post body.', author=user)
     
-##更新对象
+## 更新对象
 现在，改变这篇帖子的标题并且再次保存对象：
 
 ```shell
@@ -506,7 +506,7 @@ class PostAdmin(admin.ModelAdmin):
 
 > 你对对象的改变一直存在内存中直到你执行到*save()*方法。
 
-##取回对象
+## 取回对象
 Django的*Object-relational mapping(ORM)*是基于查询集（QuerySet）。查询集（QuerySet）是从你的数据库中根据一些过滤条件范围取回的结果对象进行的采集。你已经知道如何通过*get()*方法从数据库中取回单独的对象。如你所见：我们通过`Post.objects.get()`来使用这个方法。每一个Django模型（model）至少有一个管理器（manager），默认管理器（manager）叫做*objects*。你通过使用你的模型（models）的管理器（manager）就能获得一个查询集（QuerySet）对象。获取一张表中的所有对象，你只需要在默认的*objects*管理器（manager）上使用*all()*方法即可，如下所示：
 
     >>> all_posts = Post.objects.all()
@@ -530,12 +530,12 @@ Django的*Object-relational mapping(ORM)*是基于查询集（QuerySet）。查�
     
 > 我们构建了字段的查找方法，通过使用两个下划线`(publish__year)`来查询，除此以外我们也可以通过使用两个下划线`(author__username)`访问关联的模型（model）字段。
 
-##使用exclude()
+## 使用exclude()
 你可以在管理器（manager）上使用*exclude()*方法来排除某些返回结果。例如：我们可以返回所有2015年发布的帖子但是这些帖子的题目开头不能是*Why*:
 
     Post.objects.filter(publish__year=2015).exclude(title__startswith='Why')
     
-##使用order_by()
+## 使用order_by()
 通过在管理器（manager）上使用*order_by()*方法来对不同的字段进行排序，你可以对结果进行排序。例如：你可以取回所有对象并通过它们的标题进行排序：
 
     Post.objects.order_by('title')
@@ -544,7 +544,7 @@ Django的*Object-relational mapping(ORM)*是基于查询集（QuerySet）。查�
 
     Post.objects.order_by('-title')
 
-##删除对象
+## 删除对象
 如果你想删除一个对象，你可以对对象实例进行下面的操作：
 
 ```python
@@ -555,7 +555,7 @@ post.delete()
 > 请注意，删除对象也将删除任何的依赖关系
 
 
-##查询集（QuerySet）什么时候会执行
+## 查询集（QuerySet）什么时候会执行
 只要你喜欢，你可以连接许多的过滤给查询集（QuerySet）而且不会立马在数据库中执行直到这个查询集（QuerySet）被执行。查询集（QuerySet）只有在以下情况中才会执行：
     * 在你第一次迭代它们的时候
     * 当你对它们的实例进行切片：例如`Post.objects.all()[:3]`
@@ -564,7 +564,7 @@ post.delete()
     * 当你明确的对它们调用了`list()`方法
     * 当你在一个声明中测试它，例如*bool()*, or, and, or if
 
-##创建model manager
+## 创建model manager
 我们之前提到过, *objects*是每一个模型（models）的默认管理器（manager），它会返回数据库中所有的对象。但是我们也可以为我们的模型（models）定义一些定制的管理器（manager）。我们准备创建一个定制的管理器（manager）来返回所有状态为已发布的帖子。
 
 有两种方式可以为你的模型（models）添加管理器（managers）：你可以添加额外的管理器（manager）方法或者继承管理器（manager）的查询集（QuerySets）进行修改。第一种方法类似`Post.objects.my_manager()`,第二种方法类似`Post.my_manager.all()`。我们的管理器（manager）将会允许我们返回所有帖子通过使用`Post.published`。
@@ -592,7 +592,7 @@ class Post(models.Model):
 
 首先我们会创建我们的应用视图（views），然后我们将会为每个视图（view）定义一个URL模式，我们将会创建HTML模板（templates）来渲染这些视图（views）生成的数据。每一个视图（view）都会渲染模板（template）传递变量给它然后会返回一个经过渲染输出的HTTP响应。
 
-##创建列和详情views
+## 创建列和详情views
 让我们开始创建一个视图（view）来展示帖子列。编辑你的blog应用下中*views.py*文件，如下所示：
 
 ```python
@@ -625,7 +625,7 @@ def post_detail(request, year, month, day, post):
                     
 这是一个帖子详情视图（view）。这个视图（view）使用*year，month，day*以及*post*作为参数通过给予slug和日期来获取到一篇已经发布的帖子。请注意，当我们创建*Post*模型（model）的时候，我们给slgu字段添加了*unique_for_date*参数。这样我们可以确保在给予的日期中只有一个帖子会带有一个slug，因此，我们能通过日期和slug取回单独的帖子。在这个详情视图（view）中，我们通过使用*get_object_or_404()*快捷方法来检索期望的*Post*。这个函数能取回匹配给予的参数的对象，或者当没有匹配的对象时返回一个HTTP 404（Not found）异常。最后，我们使用*render()*快捷方法来使用一个模板（template）去渲染取回的帖子。
 
-##为你的视图（views）添加URL模式
+## 为你的视图（views）添加URL模式
 
 一个URL模式是由一个Python正则表达，一个视图（view），一个全项目范围内的命名组成。Django在运行中会遍历所有URL模式直到第一个匹配的请求URL才停止。之后，Django导入匹配的URL模式中的视图（view）并执行它，使用关键字或指定参数来执行一个*HttpRequest*类的实例。
 如果你之前没有接触过正则表达式，你需要去稍微了解下，通过访问 https://docs.python.org/3/howto/regex.html 。
@@ -668,7 +668,7 @@ urlpatterns = [
 
 通过这样的方式，你告诉Django在*blog/*路径下包含了blog应用中的*urls.py*定义的URL模式。你可以给它们一个命名空间叫做*blog*，这样你可以方便的引用这个URLs组。
 
-##模型（models）的标准URLs
+## 模型（models）的标准URLs
 
 你可以使用之前定义的*post_detail* URL给*Post*对象构建标准URL。Django的惯例是给模型（model）添加*get_absolute_url()*方法用来返回一个对象的标准URL。在这个方法中，我们使用*reverse()*方法允许你通过它们的名字和可选的参数来构建URLS。编辑你的*models.py*文件添加如下代码：
 
@@ -686,7 +686,7 @@ Class Post(models.Model):
 
 请注意，我们通过使用*strftime()*方法来保证个位数的月份和日期需要带上0来构建URL**（译者注：也就是01,02,03）**。我们将会在我们的模板（templates）中使用*get_absolute_url()*方法。
 
-##为你的视图（views）创建模板（templates）
+## 为你的视图（views）创建模板（templates）
 
 我们为我们的应用创建了视图（views）和URL模式。现在该添加模板（templates）来展示界面友好的帖子了。
 
@@ -779,7 +779,7 @@ Django有一个强大的模板（templates）语言允许你指定数据的如�
 现在，你可以在浏览器中点击其中一篇帖子的标题来看帖子的详细视图（view）。你会看到类似以下页面：
 ![django-1-10](http://upload-images.jianshu.io/upload_images/3966530-6c9f869e3aaad43d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-##添加页码
+## 添加页码
 
 当你开始给你的blog添加内容，你很快会意识到你需要将帖子分页显示。Django有一个内置的*Paginator*类允许你方便的管理分页。
 
@@ -846,7 +846,7 @@ def post_list(request):
 现在，在你的浏览器中打开 http://127.0.0.1:8000/blog/。 你会看到帖子列的底部已经有分页处理：
 ![django-1-11](http://upload-images.jianshu.io/upload_images/3966530-6fbd1a4b2e409533.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-##使用基于类的视图（views）
+## 使用基于类的视图（views）
 
 因为一个视图（view）的调用就是得到一个web请求并且返回一个web响应，你可以将你的视图（views）定义成类方法。Django为此定义了基础的视图（view）类。它们都从*View*类继承而来，*View*类可以操控HTTP方法调度以及其他的功能。这是一个可替代的方法来创建你的视图（views）。
 
@@ -890,7 +890,7 @@ urlpatterns = [
     
 在你的浏览器中打开 http://127.0.0.1:8000/blog/ 然后检查每一样功能是否都和之前的*post_list*视图（view）一样工作。这是一个简单的，通过使用Django提供的通用类的基于类视图（view）的例子。你将在*第十章，创建一个在线学习平台*以及相关的章节中学到更多的基于类的视图（views）。
 
-#总结
+# 总结
 
 在本章中，你通过创建一个基础的blog应用学习了Django web框架的基础。你为你的项目设计了数据模型（models）并且进行了数据库迁移。你为你的blog创建了视图（views），模板（templates）以及URLs，还包括对象分页。
 
