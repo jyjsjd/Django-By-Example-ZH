@@ -11,8 +11,8 @@
 
 （译者注：翻译完第一章后，发现翻译第二章的速度上升了不少，难道这就是传说中的经验值提升了？）
 
-#第二章
-##用高级特性来增强你的blog
+# 第二章
+## 用高级特性来增强你的blog
 
  在上一章中，你创建了一个基础的博客应用。现在你将利用一些高级的特性例如通过email来分享帖子，添加评论，给帖子打上tag，检索出相似的帖子等将它改造成为一个功能更加齐全的博客。在本章中，你将会学习以下几点：
 
@@ -22,7 +22,7 @@
 * 集成第三方应用
 * 构建复杂的查询集（QuerySets)
 
-###通过email分享帖子
+### 通过email分享帖子
 
 首先，我们会允许用户通过发送邮件来分享他们的帖子。让我们花费一小会时间来想下，根据在上一章中学到的知识，你该如何使用views，urls和templates来创建这个功能。现在，核对一下你需要哪些才能允许你的用户通过邮件来发送帖子。你需要做到以下几点：
 
@@ -31,7 +31,7 @@
 * 在blog应用的*urls.py*中为新的视图（view）添加一个URL模式
 * 创建一个模板（template）来展示这个表单
 
-###使用Django创建表单
+### 使用Django创建表单
 
 让我们开始创建一个表单来分享帖子。Django有一个内置的表单框架允许你通过简单的方式来创建表单。这个表单框架允许你定义你的表单字段，指定这些字段必须展示的方式，以及指定这些字段如何验证输入的数据。Django表单框架还提供了一种灵活的方式来渲染表单以及操作数据。
 
@@ -61,7 +61,7 @@ class EmailPostForm(forms.Form):
 
 字段验证取决于字段类型。例如，*email*和*to*字段是*EmailField*,这两个字段都需要一个有效的email地址，否则字段验证将会抛出一个*forms.ValidationError*异常导致表单验证不通过。在表单验证的时候其他的参数也会被考虑进来：我们将name字段定义为一个最大长度为25的字符串；通过设置`required=False`让comments的字段可选。所有这些也会被考虑到字段验证中去。目前我们在表单中使用的这些字段类型只是Django支持的表单字段的一部分。要查看更多可利用的表单字段，你可以访问：https://docs.djangoproject.com/en/1.8/ref/forms/fields/
 
-###在视图（views）中操作表单
+### 在视图（views）中操作表单
 
 当表单成功提交后你必须创建一个新的视图（views）来操作表单和发送email。编辑blog应用下的*views.py*文件，添加以下代码：
 
@@ -111,7 +111,7 @@ def post_share(request, post_id):
 
 现在，你需要学习如何使用Django来发送email,把所有的事情结合起来。
 
-##使用Django发送email
+## 使用Django发送email
 
 使用Django发送email非常简单。首先，你需要有一个本地的SMTP服务或者通过在你项目的settings.py文件中添加以下设置去定义一个外部SMTP服务器的配置：
 
@@ -182,7 +182,7 @@ url(r'^(?P<post_id>\d+)/share/$', views.post_share,
 ]
 ```
 
-##在模板（templates）中渲染表单
+## 在模板（templates）中渲染表单
 
 在通过创建表单，编写视图（view）以及添加URL模式后，我们就只剩下为这个视图（view）添加模板（tempalte）了。在`blog/templates/blog/post/`目录下创建一个新的文件并命名为*share.html*。在该文件中添加如下代码：
 
@@ -258,7 +258,7 @@ url(r'^(?P<post_id>\d+)/share/$', views.post_share,
 如果你输入了无效数据，你会看到表单被再次渲染，并展示出验证错误信息，如下所示：
 ![django-2-4](http://ohqrvqrlb.bkt.clouddn.com/django-2-4.png)
 
-##创建一个评论系统
+## 创建一个评论系统
 
 现在我们准备为blog创建一个评论系统，这样用户可以在帖子上进行评论。需要做到以下几点来创建一个评论系统：
 
@@ -332,7 +332,7 @@ admin.site.register(Comment, CommentAdmin)
 
 我们的模型（model）现在已经被注册到了管理站点，这样我们就可以使用简单的接口来管理评论实例。
 
-##通过模型（models）创建表单
+## 通过模型（models）创建表单
 
 我们仍然需要构建一个表单让我们的用户在blog帖子下进行评论。请记住，Django有两个用来创建表单的基础类：*Form*和*ModelForm*。你先前已经使用过第一个让用户通过email来分享帖子。在当前的例子中，你将需要使用*ModelForm*，因为你必须通过你的*Comment*模型（model）动态的创建表单。编辑blog应用下的*forms.py*，添加如下代码：
 
@@ -347,7 +347,7 @@ class CommentForm(forms.ModelForm):
     
 根据模型（model）创建表单，我们只需要在这个表单的*Meta*类里表明使用哪个模型（model）来构建表单。Django将会解析model并为我们动态的创建表单。每一种模型（model）字段类型都有对应的默认表单字段类型。表单验证时会考虑到我们定义模型（model）字段的方式。Django为模型（model）中包含的每个字段都创建了表单字段。然而，使用*fields* 列表你可以明确的告诉框架你想在你的表单中包含哪些字段，或者使用*exclude* 列表定义你想排除在外的那些字段。对于我们的*CommentForm*来说,我们在表单中只需要*name*,*email*,和*body*字段，因为我们只需要用到这3个字段让我们的用户来填写。
 
-##在视图（views）中操作*ModelForms*
+## 在视图（views）中操作*ModelForms*
 
 为了能更简单的处理它，我们会使用帖子的详情视图（view）来实例化表单。编辑*views.py*文件**(注: 原文此处有错，应为 `views.py`)**，导入*Comment*模型（model）和*CommentForm*表单，并且修改*post_detail*视图（view）如下所示：
 
@@ -410,7 +410,7 @@ def post_detail(request, year, month, day, post):
         
 我们的视图（view）已经准备好显示和处理新的评论了。
 
-##在帖子详情模板（template）中添加评论
+## 在帖子详情模板（template）中添加评论
 
 我们为帖子创建了一个管理评论的功能。现在我们需要修改我们的*post_detail.html*模板（template）来适应这个功能，通过做到以下步骤：
 
@@ -665,7 +665,7 @@ url(r'^tag/(?P<tag_slug>[-\w]+)/$',views.post_list,
 
 ![django-2-12](http://ohqrvqrlb.bkt.clouddn.com/django-2-12.png)
 
-##检索类似的帖子
+## 检索类似的帖子
 
 如今，我们已经可以给我们的blog帖子加上标签，我们可以通过它们做更多有意思的事情。通过使用标签，我们能够很好的分类我们的blog帖子。拥有类似主题的帖子一般会有几个共同的标签。我们准备创建一个功能：通过帖子共享的标签数量来显示类似的帖子。这样的话，当一个用户阅读一个帖子，我们可以建议他们去读其他有关联的帖子。
 
@@ -729,7 +729,7 @@ similar_posts = similar_posts.annotate(same_tags=Count('tags'))\
 
 你已经成功的为你的用户推荐了类似的帖子。*django-taggit*还内置了一个`similar_objects()` 管理器（manager）使你可以通过共享的标签返回所有对象。你可以通过访问 http://django-taggit.readthedocs.org/en/latest/api.html 看到所有django-taggit管理器。
 
-##总结
+## 总结
 在本章中，你学习了如何使用Django的表单和模型（model）表单。你创建了一个通过email分享你的站点内容的系统，还为你的博客创建了一个评论系统。通过集成一个可复用的应用，你为你的帖子增加了打标签的功能。同时，你还构建了一个复杂的查询集（QuerySets)用来返回类似的对象。
 
 在下一章中，你会学习到如何创建自定义的模板（temaplate）标签（tags）和过滤器（filters）。你还会为你的博客应用构建一个自定义的站点地图，集成一个高级的搜索引擎。
