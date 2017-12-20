@@ -49,8 +49,7 @@ class EmailPostForm(forms.Form):
     name = forms.CharField(max_length=25)
     email = forms.EmailField()
     to = forms.EmailField()
-    comments = forms.CharField(required=False,
-									     widget=forms.Textarea)
+    comments = forms.CharField(required=False, widget=forms.Textarea)
 ```
 
 这是你的第一个Django表单。看下代码：我们已经创建了一个继承了基础*Form*类的表单。我们使用不同的字段类型以使Django有依据的来验证字段。
@@ -81,8 +80,7 @@ def post_share(request, post_id):
             # ... send email
     else:
         form = EmailPostform()
-    return render(request, 'blog/post/share.html', {'post': post,
-										                       'form: form})
+    return render(request, 'blog/post/share.html', {'post': post,  'form: form})
 ```
 
 该视图（view）完成了以下工作：
@@ -223,7 +221,7 @@ url(r'^(?P<post_id>\d+)/share/$', views.post_share,
 {% endfor %}
 ```
     
-`{% csrf_token %}`模板（tempalte）标签（tag）引进了可以避开*Cross-Site request forgery(CSRF)*攻击的自动生成的令牌，这是一个隐藏的字段。这些攻击由恶意的站点或者可以在你的站点中为用户执行恶意行为的程序组成。通过访问 https://en.wikipedia.org/wiki/Cross-site_request_forgery你可以找到更多的信息 。
+`{% csrf_token %}`模板（tempalte）标签（tag）引进了可以避开*Cross-Site request forgery(CSRF)*攻击的自动生成的令牌，这是一个隐藏的字段。这些攻击由恶意的站点或者可以在你的站点中为用户执行恶意行为的程序组成。通过访问 https://en.wikipedia.org/wiki/Cross-site_request_forgery 你可以找到更多的信息 。
 
 上述的标签（tag）生成的隐藏字段就像下面一样：
 

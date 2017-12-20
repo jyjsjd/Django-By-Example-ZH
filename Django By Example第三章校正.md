@@ -9,20 +9,20 @@
 
 （译者注：第三章滚烫出炉，大家请不要吐槽文中图片比较模糊，毕竟都是从PDF中截图出来的，有点丢像素，大致能看就行- -，另外还是渣翻，但个人觉的比前两章翻译的稍微进步了那么一点点- -，希望后面几章翻译的越来越溜，就这样）
 
-#第三章
-##扩展你的blog应用
+# 第三章
+## 扩展你的blog应用
 在上一章中我们学习了表单的基础以及如何在项目中集成第三方的应用。本章将会包含以下内容：
 
 * 创建自定义的模板标签（template tags)和过滤器（filters）
 * 添加一个站点地图和帖子反馈（post feed）
 * 使用Solr和Haystack构建一个搜索引擎
 
-###创建自定义的模板标签（template tags)和过滤器（filters）
+### 创建自定义的模板标签（template tags)和过滤器（filters）
 Django提供了很多内置的模板标签（tags），例如`{% if %}`或者`{% block %}`。你已经在你的模板（template）中使用过一些了。你可以在https://docs.djangoproject.com/en/1.8/ ref/templates/builtins/ 中找到关于内置模板标签（template tags）以及过滤器（filter）的完整参考。
 
 当然，Django也允许你创建自己的模板标签（template tags）来执行自定义的动作。当你需要在你的模板中添加功能而Django模板标签（template tags)的核心设置无法提供此功能的时候，自定义模板标签会非常方便。
 
-###创建自定义的模板标签（template tags）
+### 创建自定义的模板标签（template tags）
 Django提供了以下帮助函数（functions）来允许你以一种简单的方式创建自己的模板标签（template tags）：
 
 * simple_tag：处理数据并返回一个字符串（string）
@@ -162,7 +162,7 @@ Django将会使用这个函数名作为标签（tag）名。如果你想使用�
 
 你可以在 https://docs.djangoproject.com/en/1.8/howto/custom-template-tags/ 页面得到更多的关于自定义模板标签（template tags）的信息。
 
-###创建自定义的模板过滤器（template filters）
+### 创建自定义的模板过滤器（template filters）
 Django拥有多种内置的模板过滤器（template filters）允许你对模板（template）中的变量进行修改。这些过滤器其实就是Python函数并提供了一个或两个参数————一个是需要处理的变量值，一个是可选的参数。它们返回的值可以被展示或者被别的过滤器（filters）处理。一个过滤器（filter）类似*{{ variable|my_filter }}*或者再带上一个参数，类似*{{ variable|my_filter:"foo" }}*。你可以对一个变量调用你想要的多次过滤器（filter），类似*{{ variable|filter1|filter2 }}*, 每一个过滤器（filter）都会对上一个过滤器（filter）输出的结果进行过滤。
 
 我们这就创建一个自定义的过滤器（filter），可以在我们的blog帖子中使用markdown语法，然后在模板（template）中将帖子内容转变为HTML。Markdown是一种非常容易使用的文本格式化语法并且它可以转变为HTML。你可以在 http://daringfireball.net/projects/markdown/basics 页面学习这方面的知识。
@@ -221,7 +221,7 @@ Django拥有多种内置的模板过滤器（template filters）允许你对模�
 
 就像你所看到的，自定义的模板过滤器（template filters）对于自定义的格式化是非常有用的。你可以在 https://docs.djangoproject.com/en/1.8/howto/custom-template-tags/#writing-custom-templatefilters 页面获取更多关于自定义过滤器（filter）的信息。
 
-###为你的站点添加一个站点地图（sitemap） 
+### 为你的站点添加一个站点地图（sitemap） 
 Django自带一个站点地图（sitemap）框架，允许你为你的站点动态生成站点地图（sitemap）。一个站点地图（sitemap）是一个xml文件，它会告诉搜索引擎你的网站中存在的页面，它们的关联和它们更新的频率。使用站点地图（sitemap），你可以帮助网络爬虫（crawlers）来对你的网站内容进行索引和标记。
 
 Django站点地图（sitemap）框架依赖*django.contrib.sites*模块，这个模块允许你将对象和正在你项目运行的特殊网址关联起来。当你想用一个单独Django项目运行多个网站时，这是非常方便的。为了安装站点地图（sitemap）框架，我们需要在项目中激活*sites*和*sitemap*这两个应用。编辑项目中的*settings.py*文件在*INSTALLED_APPS*中添加*django.contrib.sites*和*django.contrib.sitemaps*。之后为站点ID定义一个新的设置，如下所示：
@@ -304,7 +304,7 @@ Django站点地图（sitemap）框架依赖*django.contrib.sites*模块，这个
 
 为了开发需要我们指向了我们本地主机。在生产环境中，你必须使用你自己的*sites*框架域（domain)名。
 
-###为你的blog帖子创建feeds
+### 为你的blog帖子创建feeds
 >译者注：这节中有不少英文单词，例如feed，syndication，Atom等，没有比较好的翻译，很多地方也都是直接不翻译保留原文，所以我也保留原文）
 
 Django有一个内置的syndication feed框架，就像用*sites*框架创建站点地图（sitemap）一样，使用类似的方式（manner），你可以动态（dynamically）生成RSS或者Atom feeds。
@@ -375,7 +375,7 @@ Django有一个内置的syndication feed框架，就像用*sites*框架创建站
 
 ![django-3-7](http://ohqrvqrlb.bkt.clouddn.com/django-3-7.png)
 
-###使用Solr和Haystack添加一个搜索引擎
+### 使用Solr和Haystack添加一个搜索引擎
 >译者注:终于到了这一节，之前自己按照本节一步步操作的走下来添加了一个搜索引擎但是并没有达到像本节中所说的效果，期间还出现了很多莫名其妙的错误，可以说添加的搜索引擎功能失败了，而且本节中的提到的工具版本过低，官网最新版本的操作步骤已经和本节中描述的不一样，本节的翻译就怕会带来更多的错误，大家有需要尽量去阅读下英文原版。另外，一些单词没有好的翻译我还是保留原文。
 
 现在，我们要为我们的blog添加搜索功能。Django ORM允许你使用*icontains*过滤器（filter）执行对大小写不敏感的查询操作。举个例子，你可以使用以下的查询方式来找到内容中包含单词*framework*的帖子：
@@ -386,7 +386,7 @@ Django有一个内置的syndication feed框架，就像用*sites*框架创建站
 
 为了在我们的项目中集成*Solr*，我们需要使用*Haystack*。*Haystack*是一个为多个搜索引擎提供抽象层工作的Django应用。它提供了一个非常类似于Django查询集（QuerySets）的简单的API。让我们开始安装和配置*Solr*和*Haystack*。
 
-###安装Solr
+### 安装Solr
 你需要1.7或更高的Java运行环境来安装Solr。你可以在终端中输入`java -version`来检查你的java版本。下方的输出和你的输出可能有所出入，但是你必须保证安装的版本至少也要是1.7的：
 
     java version "1.7.0_25"
@@ -405,7 +405,7 @@ Django有一个内置的syndication feed框架，就像用*sites*框架创建站
 
 以上是*Solr*的管理控制台。这个控制台向你展示了数据统计，允许你管理你的搜索后端，检测索引数据，并且执行查询操作。
 
-###创建一个Solr core
+### 创建一个Solr core
 Solr允许你隔离每一个core实例。每个Solr **core**是一个**Lucene全文搜索引擎**实例，连同一个Solr配置，一个数据架构（schema），以及其他要求的配置才能使用。Slor允许你动态地创建和管理cores。参考例子配置中包含了一个叫*collection1*的core。如果你点击**Core Admin**菜单栏， 你可以看到这个core的信息，如下图所示：
 
 ![django-3-9](http://ohqrvqrlb.bkt.clouddn.com/django-3-9.png)
@@ -492,7 +492,7 @@ Haystack能和一些搜索引擎后台交互。要使用Solr后端，你还需�
     
 要注意URL要指向我们的blog core。到此为止，Haystack已经安装好并且已经为使用Solr做好了准备。
 
-###创建索引（indexex）
+### 创建索引（indexex）
 现在，我们必须将我们想要存储在搜索引擎中的模型进行注册。Haystack的惯例是在你的应用中创建一个*search_indexes.py*文件，然后在该文件中注册你的模型（models）。在你的blog应用目录下创建一个新的文件命名为*search_indexes.py*，添加如下代码：
 
     from haystack import indexes
@@ -539,7 +539,7 @@ Haystack能和一些搜索引擎后台交互。要使用Solr后端，你还需�
 
 我们重新载入这个core确保*schema.xml*的改变生效。当core重新载入完毕，新的架构（schema）准备好索引（index）新数据。
 
-###索引数据（Indexing data）
+### 索引数据（Indexing data）
 让我们blog中的帖子编辑索引（index）到Solr中。打开终端，执行以下命令：
 
     python manage.py rebuild_index
@@ -571,7 +571,7 @@ Haystack能和一些搜索引擎后台交互。要使用Solr后端，你还需�
 
 你已经使用过`python manage.py rebuild_index`来删除索引（index）中的所有信息然后再次对documents进行索引（index）。为了不删除所有对象而更新你的索引（index），你可以使用`python manage.py update_index`。另外，你可以使用参数`--age=<num_hours>`来更新少量的对象。为了保证你的Solr索引更新，你可以为这个操作设置一个定时任务（Cron job）。
 
-###创建一个搜索视图（view）
+### 创建一个搜索视图（view）
 现在，我们要开始创建一个自定义视图（view）来允许我们的用户搜索帖子。首先，我们需要一个搜索表单（form）。编辑blog应用下的*forms.py*文件，加入以下表单：
 
     class SearchForm(forms.Form):
@@ -644,12 +644,12 @@ Haystack能和一些搜索引擎后台交互。要使用Solr后端，你还需�
 
 通过自定义架构（schema），Solr搜索引擎可以适配各种需求。你可以结合分析仪，断词，和令牌过滤器，这些是在索引或搜索的时间执行，为你的网站内容提供更准确的搜索。 你可以在 https://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters 看到所有的可能性。
 
-###总结
+### 总结
 在这一章中，你学习了如何创建自定义的Django模板标签（template tags）和过滤器（filters），提供给模板（template）实现一些自定义的功能。你还为搜索引擎创建了一个站点地图（sitemap），爬取你的站点以及一个RSS feed 给用户来订阅。你还通过在项目中集成Slor和Haystack为blog应用构建了一个搜索引擎。
 
 在下一章中，你将会学习到通过使用Django认证框架，如何构建一个社交网站，创建自定义的用户画像，以及创建社交认证。
 
-###译者总结
+### 译者总结
 终于将第三章也翻译完成了，隔了一个星期没翻译，相对于前两章，发现这章的翻译速度又加快了那么一点点，两天内完成翻译。本章中创建自己的模板标签和过滤器个人认为非常实用，我已经打算这段时间将手头上上线的几个项目都使用本章中提供的方法进行部分重构。本章最后部分的搜索引擎我倒是用不到，看官们可以也可以选择不看，毕竟书中提供的版本太老了。。。。。。前三章都是围绕博客应用展开（为什么大家都喜欢用博客应用做初始教程- -|||)，下一章开始将开启新的项目应用，我们下周或下下周或下个月继续- -|||
 
 **2016年12月20日初稿发布**
